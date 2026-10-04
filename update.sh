@@ -42,11 +42,11 @@ main() {
       # This fork's versions of the forked pieces, on their `remote`
       # branch; the originals for everything else.
       case "$repo" in
-        fullstack-agent|backtalk|ai-visualizer) OWNER=blank-query; BR=remote ;;
-        *) OWNER=jaredrhod; BR=main ;;
+        fullstack-agent|backtalk|ai-visualizer) URL="https://github.com/blank-query/network-$repo"; BR=remote ;;
+        *) URL="https://github.com/jaredrhod/$repo"; BR=main ;;
       esac
       git -C "$HOME_DIR/$repo" init -q -b "$BR"
-      git -C "$HOME_DIR/$repo" remote add origin "https://github.com/$OWNER/$repo"
+      git -C "$HOME_DIR/$repo" remote add origin "$URL"
       git -C "$HOME_DIR/$repo" fetch -q origin
       git -C "$HOME_DIR/$repo" reset -q --hard "origin/$BR"
       git -C "$HOME_DIR/$repo" branch -q --set-upstream-to="origin/$BR" "$BR"

@@ -4,18 +4,18 @@
 
 This is a fork of [jaredrhod/fullstack-agent](https://github.com/jaredrhod/fullstack-agent). Everything below this section is the original README, and nearly all of the work is his. The `remote` branch changes two things:
 
-**The installer and updates use this fork's versions.** The wizard installs backtalk and ai-visualizer from [blank-query/backtalk](https://github.com/blank-query/backtalk) and [blank-query/ai-visualizer](https://github.com/blank-query/ai-visualizer) (their `remote` branches add the browser bridge and tap-to-talk; see their READMEs), and `update.sh` pulls from them. The memory vault and barehands still come from the originals. The install commands further down fetch the ORIGINAL toolbox; to install this fork's, use these instead:
+**The installer and updates use this fork's versions.** The wizard installs backtalk and ai-visualizer from [blank-query/network-backtalk](https://github.com/blank-query/network-backtalk) and [blank-query/network-ai-visualizer](https://github.com/blank-query/network-ai-visualizer) (their `remote` branches add the browser bridge and tap-to-talk; see their READMEs), and `update.sh` pulls from them. The memory vault and barehands still come from the originals. The install commands further down fetch the ORIGINAL toolbox; to install this fork's, use these instead:
 
 Mac and Linux:
 
 ```
-mkdir -p ~/my-agent && cd ~/my-agent && git clone https://github.com/blank-query/fullstack-agent && cd fullstack-agent && claude "set me up"
+mkdir -p ~/my-agent && cd ~/my-agent && git clone https://github.com/blank-query/network-fullstack-agent fullstack-agent && cd fullstack-agent && claude "set me up"
 ```
 
 Windows (PowerShell):
 
 ```
-$d="$env:USERPROFILE\.local\bin"; if (Test-Path "$d\claude.exe") { $env:Path="$d;$env:Path" }; New-Item -ItemType Directory -Force -Path $HOME\my-agent | Out-Null; cd $HOME\my-agent; if (-not (Test-Path fullstack-agent\fullstack-agent.md)) { Invoke-WebRequest https://github.com/blank-query/fullstack-agent/archive/refs/heads/remote.zip -OutFile fsa.zip; Expand-Archive fsa.zip . -Force; New-Item -ItemType Directory -Force -Path fullstack-agent | Out-Null; Get-ChildItem fullstack-agent-remote -Force | Copy-Item -Destination fullstack-agent -Recurse -Force; Remove-Item fullstack-agent-remote -Recurse -Force; Remove-Item fsa.zip }; cd fullstack-agent; if (Get-Command claude -ErrorAction SilentlyContinue) { claude "set me up" } else { Write-Output "Claude Code is not installed yet. Install it first at https://jaredrhod.com/start then paste this again." }
+$d="$env:USERPROFILE\.local\bin"; if (Test-Path "$d\claude.exe") { $env:Path="$d;$env:Path" }; New-Item -ItemType Directory -Force -Path $HOME\my-agent | Out-Null; cd $HOME\my-agent; if (-not (Test-Path fullstack-agent\fullstack-agent.md)) { Invoke-WebRequest https://github.com/blank-query/network-fullstack-agent/archive/refs/heads/remote.zip -OutFile fsa.zip; Expand-Archive fsa.zip . -Force; New-Item -ItemType Directory -Force -Path fullstack-agent | Out-Null; Get-ChildItem network-fullstack-agent-remote -Force | Copy-Item -Destination fullstack-agent -Recurse -Force; Remove-Item network-fullstack-agent-remote -Recurse -Force; Remove-Item fsa.zip }; cd fullstack-agent; if (Get-Command claude -ErrorAction SilentlyContinue) { claude "set me up" } else { Write-Output "Claude Code is not installed yet. Install it first at https://jaredrhod.com/start then paste this again." }
 ```
 
 **[`docker/`](docker/)** is a container that runs the voice and the face on a home server (built and used on a Raspberry Pi 5), so you can reach the agent from any browser on your network.

@@ -44,8 +44,8 @@ RUN mkdir -p /opt/models/piper \
     && chmod -R a+rX /opt/models
 
 # The code, rebuilt from the current branch heads on every `build`.
-ADD --keep-git-dir=true https://github.com/blank-query/backtalk.git#remote /opt/jarvis/backtalk
-ADD --keep-git-dir=true https://github.com/blank-query/ai-visualizer.git#remote /opt/jarvis/ai-visualizer
+ADD --keep-git-dir=true https://github.com/blank-query/network-backtalk.git#remote /opt/jarvis/backtalk
+ADD --keep-git-dir=true https://github.com/blank-query/network-ai-visualizer.git#remote /opt/jarvis/ai-visualizer
 
 # `claude` on PATH for `docker exec -it jarvis claude --resume <id>`: the
 # same CLI the SDK bundles and the voice line already runs.

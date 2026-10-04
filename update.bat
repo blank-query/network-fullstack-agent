@@ -30,7 +30,7 @@ rem
 rem If this folder has no .git yet because it arrived as a zip, an agent
 rem can wire it up once, keeping your config files:
 rem   git init -b remote
-rem   git remote add origin https://github.com/blank-query/fullstack-agent
+rem   git remote add origin https://github.com/blank-query/network-fullstack-agent
 rem   git fetch origin
 rem   git reset --hard origin/remote
 
