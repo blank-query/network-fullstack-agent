@@ -18,12 +18,13 @@ Windows (PowerShell):
 $d="$env:USERPROFILE\.local\bin"; if (Test-Path "$d\claude.exe") { $env:Path="$d;$env:Path" }; New-Item -ItemType Directory -Force -Path $HOME\my-agent | Out-Null; cd $HOME\my-agent; if (-not (Test-Path fullstack-agent\fullstack-agent.md)) { Invoke-WebRequest https://github.com/blank-query/network-fullstack-agent/archive/refs/heads/remote.zip -OutFile fsa.zip; Expand-Archive fsa.zip . -Force; New-Item -ItemType Directory -Force -Path fullstack-agent | Out-Null; Get-ChildItem network-fullstack-agent-remote -Force | Copy-Item -Destination fullstack-agent -Recurse -Force; Remove-Item network-fullstack-agent-remote -Recurse -Force; Remove-Item fsa.zip }; cd fullstack-agent; if (Get-Command claude -ErrorAction SilentlyContinue) { claude "set me up" } else { Write-Output "Claude Code is not installed yet. Install it first at https://jaredrhod.com/start then paste this again." }
 ```
 
-**[`docker/`](docker/)** is a container that runs the voice and the face on a home server (built and used on a Raspberry Pi 5), so you can reach the agent from any browser on your network.
+**[`docker/`](docker/)** runs the voice and the face as one container on a home server (built and used on a Raspberry Pi 5; works on regular PCs too), so you can reach the agent from any browser. The image is published to `ghcr.io/blank-query/network-fullstack-agent`, so there is nothing to build:
 
-- It runs those same backtalk and ai-visualizer forks, from their `remote` branches.
-- Speech models are baked into the image (Whisper `base.en` and a Piper voice). Memory, Claude Code sessions, and logs live on volumes under `docker/data`, so a rebuild never wipes them.
-- The face and the voice each run in a self-restarting tmux session; `docker exec -it jarvis tmux attach -t voice` gets you into the live voice session.
-- Setup: copy `.env.example` to `.env` and each `config/*.example.json` to the same name without `.example`, fill them in, create `data/jarvis`, `data/claude`, `data/signals`, and `data/logs` owned by your user, put your agent folder (its `CLAUDE.md` and memory vault) in `data/jarvis`, then run `docker compose up -d --build`. It joins an existing macvlan network, and browsers need an HTTPS reverse proxy in front of it for mic access.
+1. Put [`docker/compose.yml`](docker/compose.yml) in an empty folder.
+2. Beside it, create `.env` with one line, `CLAUDE_CODE_OAUTH_TOKEN=...` (get the token with `claude setup-token`).
+3. Run `docker compose up -d` and open `http://localhost:8790`.
+
+Everything else has defaults, changeable in `.env` (see [`docker/.env.example`](docker/.env.example)): the agent's name, face, voice, permission mode, time zone, and more. Memory, Claude Code sessions, and the voice live on Docker volumes, so updating (`docker compose pull && docker compose up -d`) never wipes them. From another device, the browser needs HTTPS for the mic: put a reverse proxy in front and set `BACKEND_WS`. The default voice, Piper's `en_GB-semaine-medium`, is downloaded on first start rather than shipped in the image, and its license is non-commercial. Inside the container the face and the voice each run in a self-restarting tmux session; `docker exec -it jarvis tmux attach -t voice` gets you into the live voice session.
 
 ---
 

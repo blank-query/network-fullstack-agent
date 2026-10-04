@@ -1,30 +1,27 @@
+# Drop this file into an empty folder, put your Claude token in a .env
+# file beside it (CLAUDE_CODE_OAUTH_TOKEN=..., get one with
+# `claude setup-token`), then run: docker compose up -d
+# Open http://localhost:8790 on the same machine. From other devices the
+# browser needs HTTPS for the mic: put a reverse proxy in front and set
+# BACKEND_WS (see .env.example).
 services:
   jarvis:
+    image: ghcr.io/blank-query/network-fullstack-agent:latest
     container_name: jarvis
-    build:
-      context: .
-      args:
-        UID: ${JARVIS_UID:-1000}
-        USERNAME: ${JARVIS_USER:-jarvis}
-    image: jarvis:local
-    # .env (untracked, chmod 600): the Claude token plus this machine's
-    # values for the ${...} settings here. See .env.example.
-    env_file: .env
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:?put CLAUDE_CODE_OAUTH_TOKEN in .env (claude setup-token)}
+    ports:
+      - "8790:8790"   # the face
+      - "8792:8792"   # the voice bridge
     volumes:
-      # Real configs are untracked; copy the *.example.json files.
-      - ./config:/config:ro
-      - ./config/ai-visualizer.json:/opt/jarvis/ai-visualizer/ai-visualizer.json:ro
-      # Everything that must survive a rebuild.
-      - ./data/jarvis:/home/${JARVIS_USER:-jarvis}/projects/Jarvis   # CLAUDE.md + the vault
-      - ./data/claude:/home/${JARVIS_USER:-jarvis}/.claude            # Claude Code sessions
-      - ./data/signals:/data/signals                                  # bus + saved session id
-      - ./data/logs:/opt/jarvis/backtalk/logs
-      - /etc/localtime:/etc/localtime:ro
-    networks:
-      lan:
-        ipv4_address: ${JARVIS_IP}
-    dns:
-      - ${JARVIS_DNS}
+      - agent:/home/jarvis/projects/Jarvis   # CLAUDE.md and memory
+      - claude:/home/jarvis/.claude          # Claude Code sessions
+      - signals:/data/signals                # voice/face bus, saved session id
+      - models:/data/models                  # the downloaded Piper voice
+      - logs:/opt/jarvis/backtalk/logs
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -32,7 +29,9 @@ services:
         max-size: "1m"
         max-file: "1"
 
-networks:
-  lan:
-    name: ${JARVIS_NETWORK:-network_macvlan0}
-    external: true
+volumes:
+  agent:
+  claude:
+  signals:
+  models:
+  logs:

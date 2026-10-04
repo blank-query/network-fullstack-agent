@@ -16,7 +16,7 @@
   "stt_device": "cpu",
   "piper": {
     "enabled": true,
-    "model_path": "/opt/models/piper/en_GB-semaine-medium.onnx",
+    "model_path": "/data/models/piper/en_GB-semaine-medium.onnx",
     "speaker_id": 2,
     "length_scale": 0.88
   },

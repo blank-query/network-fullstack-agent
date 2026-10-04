@@ -3,3 +3,4 @@
 config/backtalk.json
 config/ai-visualizer.json
 data/
+compose.override.yml
