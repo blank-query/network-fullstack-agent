@@ -49,6 +49,10 @@ cfg = {
     "signals_dir": "/data/signals",
     "mic_mode": "ptt",
     "stt_model": e("STT_MODEL", "base.en"),
+    # Moonshine streams: text ~0.4 s after you stop talking on a Pi 5,
+    # against ~2 s for whisper base. Model downloads once into /data/models.
+    "stt_engine": e("STT_ENGINE", "moonshine"),
+    "moonshine_cache": "/data/models/moonshine",
     "stt_device": "cpu",
     "piper": {"enabled": True,
               "model_path": f"/data/models/piper/{voice}.onnx",

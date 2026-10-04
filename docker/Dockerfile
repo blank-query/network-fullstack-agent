@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && pip install --no-cache-dir \
         claude-agent-sdk==0.2.163 \
         faster-whisper==1.2.1 \
+        moonshine-voice==0.1.5 \
         piper-tts==1.8.0 \
         httpx==0.28.1 \
         numpy==2.4.6 \
