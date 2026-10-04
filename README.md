@@ -1,5 +1,30 @@
 # fullstack-agent
 
+## About this fork
+
+This is a fork of [jaredrhod/fullstack-agent](https://github.com/jaredrhod/fullstack-agent). Everything below this section is the original README, and nearly all of the work is his. The `remote` branch changes two things:
+
+**The installer and updates use this fork's versions.** The wizard installs backtalk and ai-visualizer from [blank-query/backtalk](https://github.com/blank-query/backtalk) and [blank-query/ai-visualizer](https://github.com/blank-query/ai-visualizer) (their `remote` branches add the browser bridge and tap-to-talk; see their READMEs), and `update.sh` pulls from them. The memory vault and barehands still come from the originals. The install commands further down fetch the ORIGINAL toolbox; to install this fork's, use these instead:
+
+Mac and Linux:
+
+```
+mkdir -p ~/my-agent && cd ~/my-agent && git clone https://github.com/blank-query/fullstack-agent && cd fullstack-agent && claude "set me up"
+```
+
+Windows (PowerShell):
+
+```
+$d="$env:USERPROFILE\.local\bin"; if (Test-Path "$d\claude.exe") { $env:Path="$d;$env:Path" }; New-Item -ItemType Directory -Force -Path $HOME\my-agent | Out-Null; cd $HOME\my-agent; if (-not (Test-Path fullstack-agent\fullstack-agent.md)) { Invoke-WebRequest https://github.com/blank-query/fullstack-agent/archive/refs/heads/remote.zip -OutFile fsa.zip; Expand-Archive fsa.zip . -Force; New-Item -ItemType Directory -Force -Path fullstack-agent | Out-Null; Get-ChildItem fullstack-agent-remote -Force | Copy-Item -Destination fullstack-agent -Recurse -Force; Remove-Item fullstack-agent-remote -Recurse -Force; Remove-Item fsa.zip }; cd fullstack-agent; if (Get-Command claude -ErrorAction SilentlyContinue) { claude "set me up" } else { Write-Output "Claude Code is not installed yet. Install it first at https://jaredrhod.com/start then paste this again." }
+```
+
+**[`docker/`](docker/)** is a container that runs the voice and the face on a home server (built and used on a Raspberry Pi 5), so you can reach the agent from any browser on your network.
+
+- It runs those same backtalk and ai-visualizer forks, from their `remote` branches.
+- Speech models are baked into the image (Whisper `base.en` and a Piper voice). Memory, Claude Code sessions, and logs live on volumes under `docker/data`, so a rebuild never wipes them.
+- The face and the voice each run in a self-restarting tmux session; `docker exec -it jarvis tmux attach -t voice` gets you into the live voice session.
+- Setup: copy `.env.example` to `.env` and each `config/*.example.json` to the same name without `.example`, fill them in, create `data/jarvis`, `data/claude`, `data/signals`, and `data/logs` owned by your user, put your agent folder (its `CLAUDE.md` and memory vault) in `data/jarvis`, then run `docker compose up -d --build`. It joins an existing macvlan network, and browsers need an HTTPS reverse proxy in front of it for mic access.
+
 > **Never used Claude Code?** Start at [jaredrhod.com](https://jaredrhod.com): pick your situation and it routes you to the right path.
 
 **Runs on:** Claude Code only; the installer itself is a Claude Code wizard. The $20 Pro plan is enough.
