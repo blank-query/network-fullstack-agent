@@ -1,0 +1,5 @@
+# secrets, this machine's real configs, and everything the container writes
+.env
+config/backtalk.json
+config/ai-visualizer.json
+data/

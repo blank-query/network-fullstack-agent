@@ -1,0 +1,10 @@
+{
+  "name": "Jarvis",
+  "badge": "",
+  "face": "bioradial",
+  "host": "0.0.0.0",
+  "port": 8790,
+  "bus_dir": "/data/signals",
+  "thinking_sound": true,
+  "backend_ws": "wss://jarvis.example.com/ws"
+}

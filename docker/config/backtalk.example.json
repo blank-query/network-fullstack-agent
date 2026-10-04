@@ -1,0 +1,29 @@
+{
+  "agent_dir": "/home/jarvis/projects/Jarvis",
+  "extra_dirs": [
+    "/home/jarvis/projects/Jarvis/Jarvis Memory"
+  ],
+  "name": "Jarvis",
+  "greeting": "Hello sir, what are we working on today?",
+  "model": "claude-opus-5-5",
+  "deep_model": "claude-opus-5-5",
+  "permission_mode": "bypassPermissions",
+  "resume_last_session": true,
+  "signals_dir": "/data/signals",
+  "ptt_key": "home",
+  "mic_mode": "ptt",
+  "stt_model": "base.en",
+  "stt_device": "cpu",
+  "piper": {
+    "enabled": true,
+    "model_path": "/opt/models/piper/en_GB-semaine-medium.onnx",
+    "speaker_id": 2,
+    "length_scale": 0.88
+  },
+  "web": {
+    "enabled": true,
+    "host": "0.0.0.0",
+    "port": 8792,
+    "local_playback_on_remote_turn": false
+  }
+}

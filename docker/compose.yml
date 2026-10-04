@@ -1,0 +1,38 @@
+services:
+  jarvis:
+    container_name: jarvis
+    build:
+      context: .
+      args:
+        UID: ${JARVIS_UID:-1000}
+        USERNAME: ${JARVIS_USER:-jarvis}
+    image: jarvis:local
+    # .env (untracked, chmod 600): the Claude token plus this machine's
+    # values for the ${...} settings here. See .env.example.
+    env_file: .env
+    volumes:
+      # Real configs are untracked; copy the *.example.json files.
+      - ./config:/config:ro
+      - ./config/ai-visualizer.json:/opt/jarvis/ai-visualizer/ai-visualizer.json:ro
+      # Everything that must survive a rebuild.
+      - ./data/jarvis:/home/${JARVIS_USER:-jarvis}/projects/Jarvis   # CLAUDE.md + the vault
+      - ./data/claude:/home/${JARVIS_USER:-jarvis}/.claude            # Claude Code sessions
+      - ./data/signals:/data/signals                                  # bus + saved session id
+      - ./data/logs:/opt/jarvis/backtalk/logs
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      lan:
+        ipv4_address: ${JARVIS_IP}
+    dns:
+      - ${JARVIS_DNS}
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+networks:
+  lan:
+    name: ${JARVIS_NETWORK:-network_macvlan0}
+    external: true
