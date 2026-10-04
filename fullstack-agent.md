@@ -13,7 +13,7 @@ Ground rules, binding for the whole run:
 
 **Prerequisite check, before anything else: git.** On Mac and Linux the install command arrives through git, so it exists. On Windows the install command downloads this repo as a ZIP on purpose, so it works on a machine with no git at all; that means git may be missing here, and the component installs below need it. Check with `git --version`. If it's missing, ask first, never silently: "One tool before we build: git, the free program that downloads and updates all the pieces. Want me to install it for you right now?" On a clear yes: `winget install --id Git.Git -e --source winget --silent --accept-package-agreements --accept-source-agreements`, then verify it landed. One gotcha you (the AI) must handle yourself, and it applies to EVERY tool you install today, not just this one: a terminal that was already open does not see freshly installed programs. For the rest of THIS setup call anything you just installed by its full path -- git at `C:/Program Files/Git/cmd/git.exe`, and the same goes for `uv` when a component installs it, which bites exactly the same way and has caught a real install. Every terminal opened after today finds them normally. **Write paths with forward slashes throughout**: they work everywhere in both Python and Node on Windows, and they survive the trip through bash and JSON that eats backslashes.
 
-**Then, if this repo has no `.git` folder inside it** (it arrived as a zip): convert it into a real clone in place, so the update script can reach it forever after. Inside this folder: `git init -b main`, `git remote add origin https://github.com/jaredrhod/fullstack-agent`, `git fetch origin`, `git reset --hard origin/main`, `git branch --set-upstream-to=origin/main main`. Nothing the person sees changes; the folder just gains its connection to updates. Do this quietly and move on.
+**Then, if this repo has no `.git` folder inside it** (it arrived as a zip): convert it into a real clone in place, so the update script can reach it forever after. Inside this folder: `git init -b remote`, `git remote add origin https://github.com/blank-query/fullstack-agent`, `git fetch origin`, `git reset --hard origin/remote`, `git branch --set-upstream-to=origin/remote remote`. Nothing the person sees changes; the folder just gains its connection to updates. Do this quietly and move on.
 
 The agent's home is the folder CONTAINING this repo. Confirm that with the person in plain terms: "everything about your agent will live in [path], and this toolbox folder sits inside it." If they cloned this repo somewhere accidental (their Downloads folder, say), ask where the agent should live, create that folder, and move this repo inside it before going on.
 
@@ -60,7 +60,7 @@ Collect every remaining answer now, so no later step ever has to ask. Skip anyth
 
 ## Phase 3: Install the pieces
 
-Clone each chosen piece into the home folder as a sibling of this repo, from `github.com/jaredrhod/<name>`:
+Clone each chosen piece into the home folder as a sibling of this repo. backtalk and ai-visualizer come from this fork's versions, `github.com/blank-query/<name>` (their default branch, `remote`, carries the browser bridge and tap-to-talk); ai-memory-vault and barehands come from the originals, `github.com/jaredrhod/<name>`:
 ai-memory-vault, backtalk, barehands, ai-visualizer.
 
 **The adoption exceptions, checked before each clone:**

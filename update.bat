@@ -29,10 +29,10 @@ rem into memory before running any of it. It never needed a copy of itself.
 rem
 rem If this folder has no .git yet because it arrived as a zip, an agent
 rem can wire it up once, keeping your config files:
-rem   git init -b main
-rem   git remote add origin https://github.com/jaredrhod/fullstack-agent
+rem   git init -b remote
+rem   git remote add origin https://github.com/blank-query/fullstack-agent
 rem   git fetch origin
-rem   git reset --hard origin/main
+rem   git reset --hard origin/remote
 
 echo.
 echo   Updating has moved, and there is nothing here to run.

@@ -39,11 +39,17 @@ main() {
     if [ ! -d "$HOME_DIR/$repo/.git" ]; then
       echo "== $repo (wiring to updates)"
       [ -n "$CFG" ] && [ -f "$HOME_DIR/$repo/$CFG" ] && cp "$HOME_DIR/$repo/$CFG" "$HOME_DIR/$repo/$CFG.mine"
-      git -C "$HOME_DIR/$repo" init -q -b main
-      git -C "$HOME_DIR/$repo" remote add origin "https://github.com/jaredrhod/$repo"
+      # This fork's versions of the forked pieces, on their `remote`
+      # branch; the originals for everything else.
+      case "$repo" in
+        fullstack-agent|backtalk|ai-visualizer) OWNER=blank-query; BR=remote ;;
+        *) OWNER=jaredrhod; BR=main ;;
+      esac
+      git -C "$HOME_DIR/$repo" init -q -b "$BR"
+      git -C "$HOME_DIR/$repo" remote add origin "https://github.com/$OWNER/$repo"
       git -C "$HOME_DIR/$repo" fetch -q origin
-      git -C "$HOME_DIR/$repo" reset -q --hard origin/main
-      git -C "$HOME_DIR/$repo" branch -q --set-upstream-to=origin/main main
+      git -C "$HOME_DIR/$repo" reset -q --hard "origin/$BR"
+      git -C "$HOME_DIR/$repo" branch -q --set-upstream-to="origin/$BR" "$BR"
       [ -n "$CFG" ] && [ -f "$HOME_DIR/$repo/$CFG.mine" ] && mv "$HOME_DIR/$repo/$CFG.mine" "$HOME_DIR/$repo/$CFG"
       echo "   wired to updates. everything is current."
       continue
