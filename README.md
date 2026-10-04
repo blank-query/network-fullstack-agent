@@ -25,6 +25,12 @@ $d="$env:USERPROFILE\.local\bin"; if (Test-Path "$d\claude.exe") { $env:Path="$d
 - The face and the voice each run in a self-restarting tmux session; `docker exec -it jarvis tmux attach -t voice` gets you into the live voice session.
 - Setup: copy `.env.example` to `.env` and each `config/*.example.json` to the same name without `.example`, fill them in, create `data/jarvis`, `data/claude`, `data/signals`, and `data/logs` owned by your user, put your agent folder (its `CLAUDE.md` and memory vault) in `data/jarvis`, then run `docker compose up -d --build`. It joins an existing macvlan network, and browsers need an HTTPS reverse proxy in front of it for mic access.
 
+---
+
+**End of this fork's notes. Everything below is the original README by [jaredrhod](https://github.com/jaredrhod), unchanged.**
+
+---
+
 > **Never used Claude Code?** Start at [jaredrhod.com](https://jaredrhod.com): pick your situation and it routes you to the right path.
 
 **Runs on:** Claude Code only; the installer itself is a Claude Code wizard. The $20 Pro plan is enough.
