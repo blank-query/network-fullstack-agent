@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         faster-whisper==1.2.1 \
         moonshine-voice==0.1.5 \
         piper-tts==1.8.0 \
+        sherpa-onnx==1.13.8 \
         httpx==0.28.1 \
         numpy==2.4.6 \
         pynput==1.8.2 \
